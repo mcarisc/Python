@@ -16,7 +16,7 @@ from urllib3.exceptions import TimeoutError
 from bs4 import BeautifulSoup as BS
 
 # DEFINING CONSTANTS
-HOMEPAGE = "https://www.saleoutlet.cl"
+HOMEPAGE = "https://www.saleoutlet.cl/"
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Brave Chrome/83.0.4103.116 Safari/537.36"}
 
@@ -43,7 +43,8 @@ def get_soup(url, headers, timeout=10):
         return None
 
 def get_products(soup):
-    return soup.find_all('li', {"class": "sku-item"})
+    #return soup.find_all('li', {"class": "sku-item"})
+    return soup.find_all('div', class_='product-outer product-item__outer')
 
 def check_stock(products, in_store):
     global TOUCHED
@@ -84,10 +85,11 @@ def search_page(url, headers, in_store):
 
 
 def main(url, in_store):
+    print("Found the following sku(s) in stock:")
     global TOUCHED
     global NOTIFIED
     global HEADERS
-    # main loop
+    # main loop    
     while True:
         search_page(url, HEADERS, in_store)
         dt = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -104,7 +106,7 @@ def main(url, in_store):
         sleep(randint(5,10))
         
 
-if __name__ == "__main__":
+if __name__ == "__main__":   
     parser.add_argument("url", help="BestBuy URL to search", type=str)
     parser.add_argument("--in_store", help="Whether to notify about products listed as In Store Only", default=False, action="store_true")
     args = parser.parse_args()
