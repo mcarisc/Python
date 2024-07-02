@@ -15,6 +15,10 @@ from PIL import Image as PILImage, UnidentifiedImageError
 # Configuración del WebDriver
 options = webdriver.ChromeOptions()
 options.add_argument('--headless=new')  # Ejecutar en modo headless si no necesitas ver el navegador
+options.add_argument("--disable-gpu")  # Desactivar la aceleración por hardware
+options.add_argument("--disable-extensions")  # Desactivar extensiones
+options.add_argument("--disable-popup-blocking")  # Desactivar bloqueo de ventanas emergentes
+options.add_argument("--ignore-certificate-errors")  # Ignorar errores de certificado
 driver = webdriver.Chrome(options=options)
 # URL del sitio web
 url = 'https://www.saleoutlet.cl/camas-y-colchones/'
